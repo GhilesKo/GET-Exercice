@@ -8,9 +8,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.simple.html.RetrofitUtil;
 import com.example.simple.html.Service;
+import com.google.android.material.snackbar.Snackbar;
+
+import java.io.IOException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -25,36 +29,52 @@ public class MainActivity extends AppCompatActivity {
         EditText editText= findViewById(R.id.et);
         Button button = findViewById(R.id.btn);
          TextView tv = findViewById(R.id.tv);
-        button.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                String etNombre = editText.getText().toString();
-                int nombre = Integer.parseInt(etNombre);
-                Service service = RetrofitUtil.get();
-                Call<Integer> call = service.chosenNumber(nombre);
-                call.enqueue(new Callback<Integer>() {
-                    @Override
-                    public void onResponse(Call<Integer> call, Response<Integer> response) {
-                        if (response.isSuccessful())
-                        {
-                            tv.setText(response.body().toString());
-                            Log.i("number", String.valueOf(response.body()));
-
-                        }
 
 
-                    }
+         button.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
 
-                    @Override
-                    public void onFailure(Call<Integer> call, Throwable t) {
+                 int value = Integer.parseInt(editText.getText().toString());
 
-                        Log.i("Erreur",t.getMessage());
-                    }
-                });
+                 Service service = RetrofitUtil.get();
+                 service.nombreRecu(value).enqueue(new Callback<Integer>() {
+                     @Override
+                     public void onResponse(Call<Integer> call, Response<Integer> response) {
+                         if (response.isSuccessful())
+                         {
+                             Toast.makeText(MainActivity.this, response.body().toString(), Toast.LENGTH_SHORT).show();
 
-            }
-        });
+                         }
+                         else
+                         {
+                             try {
+                                 Snackbar.make(v,response.errorBody().string(), Snackbar.LENGTH_LONG ).show();
+                             } catch (IOException e) {
+                                 e.printStackTrace();
+                             }
+
+
+                         }
+                     }
+
+                     @Override
+                     public void onFailure(Call<Integer> call, Throwable t) {
+
+                                 Toast.makeText(MainActivity.this, getString(R.string.noInternet), Toast.LENGTH_SHORT).show();
+
+
+                     }
+                 });
+
+
+
+             }
+         });
+
+
+
+
 
     }
 }

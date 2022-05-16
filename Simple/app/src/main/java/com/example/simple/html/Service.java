@@ -6,7 +6,7 @@ import retrofit2.http.Path;
 
 public interface Service {
 
-    @GET("exos/long/double/{valeur}")
-    Call<Integer> chosenNumber(@Path("valeur") int valeur);
+    @GET("1/{nombre}")
+    Call<Integer> nombreRecu(@Path("nombre") int valeur);
 
 }

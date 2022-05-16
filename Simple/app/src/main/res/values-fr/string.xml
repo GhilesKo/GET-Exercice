@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Simple</string>
+    <string name="noInternet">Veuillez vérifier votre connexion internet</string>
+
+</resources>

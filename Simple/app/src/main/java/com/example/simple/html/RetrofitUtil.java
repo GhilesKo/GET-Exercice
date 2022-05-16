@@ -8,7 +8,7 @@ public class RetrofitUtil {
   public static Service get() {
         Retrofit retrofit = new Retrofit.Builder()
                 .addConverterFactory(ScalarsConverterFactory.create())
-                .baseUrl("https://exercices-web.herokuapp.com/")
+                .baseUrl("https://exam-mobile.herokuapp.com/api/final/")
                 .build();
 
         Service service = retrofit.create(Service.class);
